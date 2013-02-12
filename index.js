@@ -19,7 +19,7 @@ if (require.main === module) {
 
 		package_json = JSON.parse(package_json);
 		package_json.name = package_name;
-		if (build) package_json.version += '.' + build;
+		if (build) package_json.version += '-' + build;
 
 		fs.writeFileSync(directory + path.sep + 'package.json', JSON.stringify(package_json, null, '    '));
 		console.log('Complete. Package name is "' + package_json.name + '", version is "' + package_json.version + '"');

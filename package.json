@@ -5,7 +5,7 @@
 		"name": "Alex Latchford",
 		"email": "alex.latchford@gmail.com"
 	},
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"private": false,
 	"bin": {
 		"testbuild": "./index.js"
