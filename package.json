@@ -5,13 +5,10 @@
 		"name": "Alex Latchford",
 		"email": "alex.latchford@gmail.com"
 	},
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": false,
 	"bin": {
 		"testbuild": "./index.js"
-	},
-	"dependencies": {
-		"jsontool": "5.1.x"
 	},
 	"repository": {
 		"type": "git",
