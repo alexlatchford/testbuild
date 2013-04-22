@@ -4,24 +4,38 @@ var fs = require('fs'),
 	path = require('path');
 
 if (require.main === module) {
-	if (process.argv.length < 3) {
-		console.log('Update the package.json file to the test build package name.');
-		console.log('Usage: testbuild package_name [build] [directory]');
+	var argv = require('optimist')
+		.usage('Usage: testbuild package_name [build]\nUpdate the package.json file to the test build package name.')
+		.options({
+			d: {
+				alias: 'dir',
+				default: process.cwd(),
+				describe: 'Directory where package.json is located'
+			},
+			v: {
+				alias: 'version',
+				describe: 'Read the version',
+				boolean: true
+			}
+		})
+		.check(function(argv) {
+			if (argv._.length < 1) throw 'package_name required';
+		})
+		.argv;
+		
+	var package_name = argv._[0],
+		build = argv._[1],
+		package_json = fs.readFileSync(argv.dir + path.sep + 'package.json', 'ascii');
+
+	package_json = JSON.parse(package_json);
+	package_json.name = package_name;
+	if (build) package_json.version += '-' + build;
+
+	if (argv.version) {
+		process.stdout.write(package_json.version);
+		process.exit(0);
 	} else {
-		var package_name = process.argv[2],
-			build,
-			directory = process.cwd();
-
-		if (typeof process.argv[3] !== 'undefined') build = process.argv[3];
-		if (typeof process.argv[4] !== 'undefined') directory = process.argv[4];
-
-		var package_json = fs.readFileSync(directory + path.sep + 'package.json', 'ascii');
-
-		package_json = JSON.parse(package_json);
-		package_json.name = package_name;
-		if (build) package_json.version += '-' + build;
-
-		fs.writeFileSync(directory + path.sep + 'package.json', JSON.stringify(package_json, null, '    '));
+		fs.writeFileSync(argv.dir + path.sep + 'package.json', JSON.stringify(package_json, null, '    '));
 		console.log('Complete. Package name is "' + package_json.name + '", version is "' + package_json.version + '"');
 	}
 }
