@@ -8,4 +8,4 @@ Simple script to put in front of your test build server to change the package na
 
 ## Usage
 
-`testbuild package_name [build_number] [directory]`
+`testbuild package_name <build_number> [-d directory] [-v print version]`
